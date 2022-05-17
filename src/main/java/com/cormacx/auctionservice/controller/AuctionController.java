@@ -4,9 +4,7 @@ import com.cormacx.auctionservice.entity.auction.Auction;
 import com.cormacx.auctionservice.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -31,5 +29,30 @@ public class AuctionController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
         }
     }
+
+    @PostMapping
+    public Auction createNewAuction(@RequestBody Auction auction) {
+        boolean isValid = auctionService.validateNewAuction(auction);
+
+        if (isValid) {
+            Auction retVal = auctionService.createNewAuction(auction);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to validate new Auction");
+        }
+        return auction;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAuction(@PathVariable Long id) {
+        Optional<Auction> auctionOpt = auctionService.findAuctionById(id);
+
+        if (auctionOpt.isPresent()) {
+            auctionService.deleteAuction(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
+        }
+    }
+
+
 
 }

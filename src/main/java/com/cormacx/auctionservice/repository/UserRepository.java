@@ -1,7 +1,12 @@
 package com.cormacx.auctionservice.repository;
 
 import com.cormacx.auctionservice.entity.user.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+import java.util.Optional;
+
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+
+    Optional<User> findByEmail( String email );
+
 }

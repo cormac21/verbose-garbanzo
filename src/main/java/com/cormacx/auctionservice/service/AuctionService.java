@@ -20,4 +20,16 @@ public class AuctionService {
     public Optional<Auction> findAuctionById(Long id) {
         return auctionRepo.findById(id);
     }
+
+    public Auction createNewAuction(Auction auction) {
+        return auctionRepo.save(auction);
+    }
+
+    public boolean validateNewAuction(Auction auction) {
+        return false;
+    }
+
+    public void deleteAuction(Long id) {
+        auctionRepo.deleteById(id);
+    }
 }
